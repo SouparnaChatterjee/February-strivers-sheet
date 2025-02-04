@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int n = ratings.size();
+        vector<int> left(n, 1), right(n, 1);
+        int total = 0;
+
+        // Left pass: Ensure right-side children get more candy if their rating is higher
+        for (int i = 1; i < n; i++) {
+            if (ratings[i] > ratings[i - 1]) {
+                left[i] = left[i - 1] + 1;
+            }
+        }
+
+        // Right pass: Ensure left-side children get more candy if their rating is higher
+        for (int i = n - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                right[i] = right[i + 1] + 1;  // FIXED the index issue
+            }
+        }
+
+        // Compute the total candies
+        for (int i = 0; i < n; i++) {
+            total += max(left[i], right[i]);  // FIXED max usage
+        }
+
+        return total;
+    }
+};
