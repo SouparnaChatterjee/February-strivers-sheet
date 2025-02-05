@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        if (digits.empty()) return {}; // ✅ Fix: Return empty vector if input is empty
+        
+        string curr;
+        vector<string> res;
+        dfs(digits, curr, res, 0);
+        return res;
+    }
+
+    const vector<string> digitsToLetters{
+        "", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
+    };
+
+    void dfs(string& digits, string& curr, vector<string>& res, int index) {
+        if (index == digits.length()) { 
+            res.push_back(curr); // ✅ Fix: Use res instead of undefined ans
+            return;
+        }
+
+        for (char letter : digitsToLetters[digits[index] - '0']) { // ✅ Fix: Correct indexing
+            curr.push_back(letter);
+            dfs(digits, curr, res, index + 1);
+            curr.pop_back();
+        }
+    }
+};
